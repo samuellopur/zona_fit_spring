@@ -48,7 +48,7 @@ public class ZonaFitApplication implements CommandLineRunner {
 		*** Aplicación Zona Fit (GYM) ***
 		---------------------------------
 		1. Listar clientes
-		2. Buscar cliente
+		2. Buscar cliente por id
 		3. Agregar cliente
 		4. Modificar cliente
 		5. Eliminar cliente
@@ -74,13 +74,56 @@ public class ZonaFitApplication implements CommandLineRunner {
 				-----------------------------
 				--- Buscar cliente por id ---
 				-----------------------------
-				Digite Id del cliente:\s""");
+				Digita Id del cliente:\s""");
 				var idCliente = Integer.parseInt(consola.nextLine());
 				Cliente cliente = clienteServicio.buscarClientePorId(idCliente);
 				if (cliente != null)
 					logger.info("Cliente encontrado: " + cliente + nl);
 				else
 					logger.info("Cliente no encontrado: " + cliente + nl);
+			}
+
+			case 3 -> {
+				logger.info("""
+				-----------------------
+				--- Agregar cliente ---
+				-----------------------
+				""");
+				logger.info("Nombre: ");
+				var nombre = consola.nextLine();
+				logger.info("Apellido: ");
+				var apellido = consola.nextLine();
+				logger.info("Membresia: ");
+				var membresia = Integer.parseInt(consola.nextLine());
+				var cliente = new Cliente();
+				cliente.setNombre(nombre);
+				cliente.setApellido(apellido);
+				cliente.setMembresia(membresia);
+				clienteServicio.guardarCliente(cliente);
+				logger.info("Cliente agregado: " + cliente + nl);
+			}
+
+			case 4 -> {
+				logger.info("""
+    					-------------------------
+						--- Modificar cliente ---
+						-------------------------
+						Digita el Id del cliente:\s""");
+				var idCliente = Integer.parseInt(consola.nextLine());
+				Cliente cliente = clienteServicio.buscarClientePorId(idCliente);
+				if (cliente != null){
+					logger.info("Nombre: ");
+					var nombre = consola.nextLine();
+					logger.info("Apellido: ");
+					var apellido = consola.nextLine();
+					logger.info("Membresia: ");
+					var membresia = Integer.parseInt(consola.nextLine());
+					cliente.setNombre(nombre);
+					cliente.setApellido(apellido);
+					cliente.setMembresia(membresia);
+					clienteServicio.guardarCliente(cliente);
+					logger.info("Cliente modificado: " + cliente + nl);
+				}
 			}
 		}
         return salir;
